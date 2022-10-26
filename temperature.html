@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="hu-HU">
+    <head>
+        <meta charset="UTF-8">
+        <title>Hőmérséklet átváltó</title>
+        <style>
+            html, body {
+                font-family: Arial, Helvetica, sans-serif;
+                background-color: royalblue;
+                text-align: center;
+                color: whitesmoke;
+                zoom: 150%;
+            }
+            form {
+                display: inline-block;
+            }
+        </style>
+        <script>
+            let opts = ["<option value=\"C\">Celsius</option>", "<option value=\"F\">Fahrenheit</option>", "<option value=\"K\">Kelvin</option>"]
+            function onSelectChange() {
+                let secondSelect = document.getElementById("3");
+                switch(document.getElementById("1").value) {
+                    case "C":
+                        secondSelect.innerHTML = opts[1]+opts[2];
+                        break;
+                    case "F":
+                        secondSelect.innerHTML = opts[0]+opts[2];
+                        break;
+                    case "K":
+                        secondSelect.innerHTML = opts[0]+opts[1];
+                        break;
+                    default:
+                        break;
+                }
+            }
+            function go() {
+                let num = parseInt(document.getElementById("2").value);
+                let out = document.getElementById("out");
+                if(!isNaN(num)) {
+                    let firstSelectValue = document.getElementById("1").value;
+                    let secondSelectValue = document.getElementById("3").value;
+                    if(firstSelectValue == "C") {
+                        if(secondSelectValue == "F") {
+                            out.innerHTML = num*1.8000+32.00;
+                        } else {
+                            out.innerHTML = num+273.15;
+                        }
+                    } else if(firstSelectValue == "F") {
+                        if(secondSelectValue == "C") {
+                            out.innerHTML = (num-32)/1.8000;
+                        } else {
+                            out.innerHTML = (num-32)/1.8000+273.15;
+                        }
+                    } else {
+                        if(secondSelectValue == "C") {
+                            out.innerHTML = num-273.15;
+                        } else {
+                            out.innerHTML = (num-273.15)*1.8000+32.00;
+                        }
+                    }
+                } else {
+                    out.innerHTML = "";
+                    alert("Nem adtál meg értéket!");
+                }
+            }
+        </script>
+    </head>
+    <body>
+        <h1>Hőmérséklet átváltó</h1>
+        <form>
+            <label for="1">Erről a mértékegységről:</label>
+            <select id="1" name="1" onchange="onSelectChange()">
+                <option value="C" selected>Celsius</option>
+                <option value="F">Fahrenheit</option>
+                <option value="K">Kelvin</option>
+            </select><br><br>
+            <input type="number" min="-1000000" max="1000000" id="2" name="2" autofocus><br><br>
+            <label for="3">Erre a mértékegységre:</label>
+            <select id="3" name="3">
+                <option value="F" selected>Fahrenheit</option>
+                <option value="K">Kelvin</option>
+            </select><br><br>
+            <button form="none" onclick="go()">Átváltás!</button>
+            <button form="none" onclick="location.reload()">Visszaállítás</button>
+        </form><br><br>
+        <h3 id="out"></h3>
+    </body>
+</html>
